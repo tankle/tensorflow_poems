@@ -43,8 +43,8 @@ def rnn_model(model, input_data, output_data, vocab_size, rnn_size=128, num_laye
     elif model == 'lstm':
         cell_fun = tf.contrib.rnn.BasicLSTMCell
 
-    cell = cell_fun(rnn_size, state_is_tuple=True)
-    cell = tf.contrib.rnn.MultiRNNCell([cell] * num_layers, state_is_tuple=True)
+    # cell_tmp = cell_fun(rnn_size, state_is_tuple=True)
+    cell = tf.contrib.rnn.MultiRNNCell([cell_fun(rnn_size, state_is_tuple=True) for _ in range(num_layers)], state_is_tuple=True)
 
     if output_data is not None:
         initial_state = cell.zero_state(batch_size, tf.float32)
